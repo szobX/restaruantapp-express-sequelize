@@ -9,6 +9,7 @@
 // const MenuRoutes = require('./routes/menu.js');
 const Logger = require('../logger.js');
 const MenuRoutes = require('./routes/menu');
+const CurrencyRoutes = require('./routes/currency');
 exports.modules = function (app) {
     Logger.info('--> ROUTER INIT <---');
 
@@ -18,5 +19,6 @@ exports.modules = function (app) {
         return res.send({ message: 'server running' });
     });
     MenuRoutes(app);
+    CurrencyRoutes(app);
 };
 // exports.modules = initRouter;
