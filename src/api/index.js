@@ -10,6 +10,7 @@
 const Logger = require('../logger.js');
 const MenuRoutes = require('./routes/menu');
 const CurrencyRoutes = require('./routes/currency');
+const UserRoutes = require('./routes/user');
 exports.modules = function (app) {
     Logger.info('--> ROUTER INIT <---');
 
@@ -20,5 +21,6 @@ exports.modules = function (app) {
     });
     MenuRoutes(app);
     CurrencyRoutes(app);
+    UserRoutes(app);
 };
 // exports.modules = initRouter;
