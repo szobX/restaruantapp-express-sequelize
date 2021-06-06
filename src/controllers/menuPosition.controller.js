@@ -10,6 +10,16 @@ const create = (req, res) => {
         active: req.body.active ? req.body.active : true,
     };
 
+    let isEmpty = false;
+
+    Object.keys(menuPositionItem).forEach((key) => {
+        if (menuPositionItem[key] == undefined) isEmpty = true;
+    });
+    if (isEmpty) {
+        return res.status(400).send({
+            message: 'Body has Empty value',
+        });
+    }
     Menu.create(menuPositionItem)
         .then((data) => {
             res.send(data);
