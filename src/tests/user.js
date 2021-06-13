@@ -35,7 +35,6 @@ describe('User', () => {
         describe('POST user', () => {
             it('it should create new user', (done) => {
                 let req = {
-                    "id": 1,
                     "firstName": "Michał",
                     "lastName": "Tester",
                     "email": "asdasd@test.pl",
@@ -51,6 +50,24 @@ describe('User', () => {
                     res.body.should.be.a('object')
                     .that.has.all.keys([ 'id', 'firstName', 'lastName', 'email', 'phoneNumber', 'role', 'active', 'createdAt', 'updatedAt' ])
                     responseId = res.body.id
+                    done()
+                })
+            })
+             // not all info passed
+            it('it should fail to create new user with not all info passed', (done) => {
+                let req = {
+                    "email": "asdasd@test.pl",
+                    "phoneNumber": "123123123",
+                    "role": 1,
+                }
+                chai.request(server)
+                .post('/api/user')
+                .set('Content-Type', 'application/json')
+                .send(req)
+                .end((err, res) => {
+                    res.should.have.status(400);
+                    res.body.should.be.a('object')
+                    res.body.should.have.property('message').eql('Body has Empty value');
                     done()
                 })
             })
