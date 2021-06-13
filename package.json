@@ -5,7 +5,8 @@
     "license": "MIT",
     "scripts": {
         "dev": "nodemon src/app.js",
-        "test": "node ./node_modules/mocha/bin/mocha src/tests/menu.js",
+        "test:user": "node ./node_modules/mocha/bin/mocha src/tests/user.js",
+        "test:menu": "node ./node_modules/mocha/bin/mocha src/tests/menu.js",
         "lint:js": "eslint --ext .js,--ignore-path .gitignore ."
     },
     "dependencies": {
