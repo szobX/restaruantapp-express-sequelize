@@ -10,7 +10,9 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             // define association here
             Currency.hasMany(models.MenuPosition, {
-                as: 'menuPosition',
+            });
+            Currency.hasMany(models.Order, {
+              
             });
         }
     }
