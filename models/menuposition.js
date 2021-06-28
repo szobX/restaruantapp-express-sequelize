@@ -17,6 +17,9 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: 'currencyId',
                 as: 'currency',
             });
+            MenuPosition.hasMany(models.OrderPosition, {
+                as: 'menuPosition',
+            });
         }
     }
     MenuPosition.init(
