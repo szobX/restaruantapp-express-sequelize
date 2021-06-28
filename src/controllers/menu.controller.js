@@ -1,21 +1,22 @@
 const Menu = require('../../models/index.js').Menu;
 
 const create = (req, res) => {
-    console.log(req);
-    if (!req.body.name) {
-        res.status(400).send({
-            message: 'Content can not be empty!',
-        });
-        return;
-    }
-
-    const menuPosition = {
+    const MenuItem = {
         name: req.body.name,
         description: req.body.description,
         active: req.body.active ? req.body.active : true,
     };
 
-    Menu.create(menuPosition)
+    let isEmpty = false;
+    Object.keys(MenuItem).forEach((key) => {
+        if (MenuItem[key] == undefined) isEmpty = true;
+    });
+    if (isEmpty) {
+        return res.status(400).send({
+            message: 'Body has Empty value',
+        });
+    }
+    Menu.create(MenuItem)
         .then((data) => {
             res.send(data);
         })

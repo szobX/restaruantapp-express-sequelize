@@ -1,18 +1,13 @@
-// const route = require('express').Router();
-import express from 'express';
-import UserController from '../../controllers/user.controller.js';
-const UserRoutes = (app) => {
-    const router = express.Router();
-    const route = '/api/users';
-
+const routerExpress = require('express').Router();
+const UserController = require('../../controllers/user.controller');
+module.exports = function (app) {
+    const router = routerExpress;
+    const route = '/api/user';
     router.get('/', UserController.findAll);
-    router.get('/:id', (request, response) => {
-        console.log(request, response);
-        return response.send({ ...request.params });
-    });
     router.post('/', UserController.create);
+    router.get('/:id', UserController.find);
+    router.delete('/:id', UserController.remove);
+    router.put('/:id', UserController.edit);
 
     app.use(route, router);
 };
-export default UserRoutes;
-// module.exports = MenuRoutes;

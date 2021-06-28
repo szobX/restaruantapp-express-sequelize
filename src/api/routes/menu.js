@@ -1,13 +1,9 @@
 const routerExpress = require('express').Router();
-// import express from 'express';
 
-// const menuController = require('../../models/menu/controller.js');
 const Menu = require('../../controllers/menu.controller.js');
 const MenuCategory = require('../../controllers/menuCategory.controller.js');
 const MenuPosition = require('../../controllers/menuPosition.controller.js');
-// import * as Menu from '../../controllers/menu.controller.js';
-// const MenuCategory = require('../../controllers/menuCategory.controller.js');
-// import * as menuCategory from '../../controllers/menuCategory.controller.js';
+
 module.exports = function (app) {
     const router = routerExpress;
     const route = '/api/menu';

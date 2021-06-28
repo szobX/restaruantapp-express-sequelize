@@ -1,6 +1,6 @@
 const Currency = require('../../models/index.js').Currency;
 const create = (req, res) => {
-    const menuPosition = {
+    const currencyItem = {
         name: req.body.name,
         symbol: req.body.symbol,
         exchangeRate: req.body.exchangeRate,
@@ -8,15 +8,15 @@ const create = (req, res) => {
     };
     let isEmpty = false;
 
-    Object.keys(menuPosition).forEach((key) => {
-        if (menuPosition[key] == undefined) isEmpty = true;
+    Object.keys(currencyItem).forEach((key) => {
+        if (currencyItem[key] == undefined) isEmpty = true;
     });
     if (isEmpty) {
         return res.status(400).send({
             message: 'Body has Empty value',
         });
     }
-    Currency.create(menuPosition)
+    Currency.create(currencyItem)
         .then((data) => {
             res.send(data);
         })
@@ -95,18 +95,18 @@ const remove = async (req, res) => {
         .then((num) => {
             if (num == 1) {
                 res.send({
-                    message: 'Menu was deleted successfully!',
+                    message: 'Currency was deleted successfully!',
                 });
             } else {
                 res.send({
-                    message: `Cannot delete Menu ${id} or  Menu was not found!`,
+                    message: `Cannot delete Menu ${id} or  Currency was not found!`,
                 });
             }
         })
         .catch((err) => {
             console.log(err);
             res.status(500).send({
-                message: 'Could not delete Menu with id=' + id,
+                message: 'Could not delete Currency with id=' + id,
             });
         });
 };

@@ -9,8 +9,18 @@ Edycj config/config.json pod własną bazę jeśli trzeba
 
 ```shell
 sequelize db:create
-> sequelize db:migrations
+> sequelize db:migrate
 > sequelize db:seed:all
+```
+
+#REFRESH MIGRACJI
+
+```shell
+sequelize db:drop
+sequelize db:create
+sequelize db:migrate
+sequelize db:seed:all
+
 ```
 
 ```shell
