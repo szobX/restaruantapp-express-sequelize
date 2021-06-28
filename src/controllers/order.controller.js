@@ -2,6 +2,7 @@
 const Order = require('../../models/index.js').Order;
 const OrderPosition = require('../../models/index.js').OrderPosition;
 const menuPosition = require('../../models/index.js').MenuPosition;
+const Currency = require('../../models/index').Currency;
 var Sequelize = require('sequelize');
 var Op = Sequelize.Op;
 // const createPositions = async (arr,id) =>{
@@ -163,10 +164,54 @@ const remove = async (req, res) => {
         });
 };
 
+const recount = async(req,res)=>{
+    try{
+
+    
+    const findCurrency = await Currency.findAll({where:{
+        id:req.body.currencyId
+    }})
+
+    
+    const order = await Order.findAll({
+        where: {
+            id: req.params.id,
+        },
+        include: ['user', 'currency']
+    });
+    order[0].currencyId = req.body.currencyId
+    console.log(findCurrency[0].exchangeRate,order[0].price)
+    const price = parseFloat(findCurrency[0].exchangeRate) * parseFloat(order[0].price)
+    
+    Order.update({price,currencyId:req.body.currencyId}, {
+        where: { id: req.params.id, },
+    })
+        .then((num) => {
+            if (num == 1) {
+                Order.findByPk(req.params.id).then((e) => res.send(e));
+            } else {
+                res.send({
+                    message: `Cannot update Order with ${req.params.id}. check body or Order is not found!`,
+                });
+            }
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message: 'Error updating Order with id=' + req.params.id,
+            });
+        });
+
+
+  
+}catch(e){
+    res.status(500).send(e)
+}
+}
 module.exports = {
     create,
     findAll,
     remove,
     edit,
     find,
+    recount
 };

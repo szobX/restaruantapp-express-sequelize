@@ -14,7 +14,7 @@ module.exports = function (app) {
         router.get('/:id/orderPositions/:orderPositionId',orderPositionController.find)
         router.delete('/:id/orderPositions/:orderPositionId',orderPositionController.remove)
         router.put('/:id/orderPositions/:orderPositionId',orderPositionController.edit)
-
+        router.post('/:id/recount',orderController.recount)
     app.use(route, router);
 };
 // export default MenuRoutes;
