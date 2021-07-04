@@ -15,6 +15,7 @@
         "test:orderRecount": "node ./node_modules/mocha/bin/mocha src/tests/orderRecount.js",
         "test:bill": "node ./node_modules/mocha/bin/mocha src/tests/bill.js",
         "test:billitems": "node ./node_modules/mocha/bin/mocha src/tests/billItems.js",
+        "test:splitBills": "node ./node_modules/mocha/bin/mocha src/tests/splitBills.js",
         "test:all": "node ./node_modules/mocha/bin/mocha src/tests/*.js",
         "lint:js": "eslint --ext .js,--ignore-path .gitignore ."
     },
