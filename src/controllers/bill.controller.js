@@ -113,6 +113,91 @@ const find = async (req, res) => {
         });
     }
 };
+
+const split = async (req, res) => {
+    try {
+        const bill = await Bill.findOne({
+            where: {
+                id: req.params.id,
+            },
+            include: ['user', 'currency']
+        });
+    
+        if (bill) {
+            bill.active = false;
+            await bill.save({ fields: ['active'] });
+
+            let priceForNewBill = 0;
+            let items = await BillItem.findAll({
+                where: {
+                    billId: bill.id,
+                },
+                include: ['menuPositions'],
+            })
+
+            const itemsForNewBill = items.filter(item => req.body.items.includes(item.id))
+            const restOfItems = items.filter(item => !req.body.items.includes(item.id))
+
+            itemsForNewBill.forEach(item => {
+                priceForNewBill+=Number.parseFloat(item.menuPositions.price)
+            })
+
+            const newBill = await Bill.create({
+                price: priceForNewBill, 
+                clientId: req.body.clientId,
+                currencyId: bill.currencyId,
+                orderId: bill.orderId,
+                active: true,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            })
+            
+            await Promise.all(
+                itemsForNewBill.map(async item => {
+                    item.billId = newBill.id;
+                    await item.save({ fields: ['billId'] });
+                })
+            )
+
+            let priceOfRestItems = 0;
+
+            restOfItems.forEach(item => {
+                priceOfRestItems+=Number.parseFloat(item.menuPositions.price)
+            })
+
+            const anotherBill = await Bill.create({
+                price: priceOfRestItems, 
+                clientId: bill.clientId,
+                currencyId: bill.currencyId,
+                orderId: bill.orderId,
+                active: true,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            })
+            await Promise.all(
+                restOfItems.map(async item => {
+                    item.billId = anotherBill.id;
+                    await item.save({ fields: ['billId'] });
+                })
+            )
+
+            res.status(200).send({
+                message: 'Bill has been split successfully!',
+            });
+
+        } else {
+            res.status(404).send({
+                message: 'Bill not found',
+            });
+        }
+    } catch (err) {
+        res.status(500).send({
+            message:
+                err.message || 'Some error occurred while retrieving Order.',
+        });
+    }
+};
+
 const edit = async (req, res) => {
     const id = req.params.id;
 
@@ -166,5 +251,6 @@ module.exports = {
     findAll,
     remove,
     edit,
-    find
+    find,
+    split
 };

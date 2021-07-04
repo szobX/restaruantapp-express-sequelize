@@ -11,6 +11,7 @@ module.exports = function (app) {
     router.get('/:id', billController.find),
     router.put('/:id', billController.edit),
     router.delete('/:id', billController.remove);
+    router.post('/:id/split', billController.split),
     router.get('/:id/billItems',billItemController.findAll)
     router.get('/:id/billItems/:billItemId',billItemController.find)
     router.delete('/:id/billItems/:billItemId',billItemController.remove)
