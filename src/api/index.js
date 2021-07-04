@@ -13,6 +13,7 @@ const CurrencyRoutes = require('./routes/currency');
 const UserRoutes = require('./routes/user');
 const OrderRoutes = require('./routes/order');
 const BillRoutes = require('./routes/bill');
+const ReportRoutes = require('./routes/report');
 exports.modules = function (app) {
     Logger.info('--> ROUTER INIT <---');
 
@@ -26,5 +27,6 @@ exports.modules = function (app) {
     UserRoutes(app);
     OrderRoutes(app);
     BillRoutes(app);
+    ReportRoutes(app);
 };
 // exports.modules = initRouter;
