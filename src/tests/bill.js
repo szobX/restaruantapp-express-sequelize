@@ -11,17 +11,17 @@ let expect = chai.expect;
 let responseId = 0;
 chai.use(chaiHttp);
 
-describe('Menu', () => {
+describe('Bill', () => {
 
-    // /api/menus test
+    // /api/bill test
 
-    describe('/api/menu test', () => {
+    describe('/api/bill test', () => {
 
-        // GET all menus
-        describe('GET all menus', () => {
-            it('it should GET all menus', (done) => {
+        // GET all bills
+        describe('GET all bills', () => {
+            it('it should GET all bills', (done) => {
                 chai.request(server)
-                    .get('/api/menu')
+                    .get('/api/bills')
                     .end((err, res) => {
                           res.should.have.status(200);
                           res.body.should.be.a('array');
@@ -31,37 +31,39 @@ describe('Menu', () => {
               });
         })
     
-        // check if /api/menus array returns 4 positions
+        // check if /api/bills array returns 11 positions
 
-        describe('GET menus number of properties', () => {
-            it('it should have 4 properties', (done) => {
+        describe('GET bills number of properties', () => {
+            it('it should have 1 property', (done) => {
                 chai.request(server)
-                    .get('/api/menu')
+                    .get('/api/bill')
                     .end((err, res) => {
                         expect(res.body)
                             .to.be.an.instanceof(Array)
                             .and.to.have.property(0)
-                            .that.has.all.keys([ 'id', 'name', 'active', 'createdAt', 'updatedAt' ])
+                            .that.has.all.keys([ 'id'
+                                            ])
                     done()
                     })
             })
         })
 
-        // create menu /api/menu
-        describe('POST menu create menu', () => {
-            it('it should POST new menu', (done) => {
+        // create bill /api/bill
+        describe('POST /api/bill create bill', () => {
+            it('it should POST new bill', (done) => {
                 let req = {
-                    "name": "Test Menu",
-                    "description": "test"
+                        "name": "bill1"
+                    
                 }
                 chai.request(server)
-                .post('/api/menu')
+                .post('/api/bill')
                 .set('Content-Type', 'application/json')
                 .send(req)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a('object')
-                    .that.has.all.keys([ 'id', 'name', 'active', 'createdAt', 'updatedAt' ])
+                    .that.has.all.keys([ 'id'
+                ])
                     responseId = res.body.id
                     //res.body.errors.should.have.property('pages');
                     //res.body.errors.pages.should.have.property('kind').eql('required');
@@ -70,17 +72,17 @@ describe('Menu', () => {
             })
         })
 
-        // GET 1 menu
-        describe('GET one menu', () => {
-                it('it should GET previously created menu', (done) => {
+        // GET 1 bill
+        describe('GET one bill', () => {
+                it('it should GET previously created bill', (done) => {
                     chai.request(server)
-                        .get('/api/menu/' + responseId)
+                        .get('/api/bill/' + responseId)
                         .end((err, res) => {
                             res.should.have.status(200);
                             res.body.should.be.a('object')
-                            .that.has.all.keys([ 'id', 'name', 'active', 'createdAt', 'updatedAt' ])
+                            .that.has.all.keys([ 'id'
+                                            ])
                             res.body.should.have.property('id').eql(responseId);
-                            res.body.should.have.property('name').eql('Test Menu')
                             res.body.should.have.property('active').eql(true)
                           done();
                         });
@@ -88,22 +90,21 @@ describe('Menu', () => {
             }
         )
 
-        // PUT MENU
-        describe('PUT menu', () => {
-            it('it should PUT previously created menu', (done) => {
+        // PUT bill
+        describe('PUT bill', () => {
+            it('it should PUT previously created bill', (done) => {
                 let req = {
-                    "name": "Production Menu",
                     "active": false
                 }
                 chai.request(server)
-                .put('/api/menu/' + responseId)
+                .put('/api/bill/' + responseId)
                 .send(req)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a('object')
-                    .that.has.all.keys([ 'id', 'name', 'active', 'createdAt', 'updatedAt' ])
+                    .that.has.all.keys([ 'id'
+                ])
                     res.body.should.have.property('id').eql(responseId);
-                    res.body.should.have.property('name').eql('Production Menu')
                     res.body.should.have.property('active').eql(false)
                     done()
                 })
@@ -111,23 +112,23 @@ describe('Menu', () => {
         })
 
 
-       // DELETE menu
-        describe('DELETE menu delete menu', () => {
-            it('it should DELETE menu', (done) => {
+       // DELETE bill
+        describe('DELETE /api/bill delete bill', () => {
+            it('it should DELETE bill', (done) => {
                 chai.request(server)
-                .delete('/api/menu/' + responseId)
+                .delete('/api/bill/' + responseId)
                 .set('Content-Type', 'application/json')
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a('object')
-                    res.body.should.have.property('message').eql('Menu was deleted successfully!')
+                    res.body.should.have.property('message').eql('Bill was deleted successfully!')
                 done()
                 })
             })
 
             it('it should return 404 on GET', (done) => {
                 chai.request(server)
-                .get('/api/menu/' + responseId)
+                .get('/api/bill/' + responseId)
                 .set('Content-Type', 'application/json')
                 .end((err, res) => {
                     res.should.have.status(404);

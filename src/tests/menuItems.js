@@ -22,8 +22,8 @@ describe('MenuCategories', () => {
         describe('POST menu create menu', () => {
             it('it should POST new menu', (done) => {
                 let req = {
-                    "name": "MenuCategoryTest Menu",
-                    "description": "testing"
+                    "name": "Test Menu",
+                    "description": "categoryId test"
                 }
                 chai.request(server)
                 .post('/api/menu')
@@ -84,32 +84,49 @@ describe('MenuCategories', () => {
             })
         })
 
+        describe('POST create new menuItem', () => {
+            it('it should POST new menuItem', (done) => {
+                let req = {
+                    "menuCategoryId": 1,
+                    "name": "Kamikaze",
+                    "price": "7.00",
+                    "currencyId": 1,
+                    "active": true,
+                    "MenuCategoryId": 1
+                }
+                chai.request(server)
+                .post('/api/menu/' + responseId + '/menuCategory/' + categoryResponseId + '/menuPositions/')
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object')
+                    itemResponseId = res.body.id
+                done()
+            })
+        })
+    })
+    // DELETE THIS
+    itemResponseId = 1;
+    describe('DELETE created menuItem', () => {
+        it('it should DELETE created menuItem', (done) => {
+            chai.request(server)
+            .delete('/api/menu/' + responseId + '/menuCategory/' + categoryResponseId + '/menuPositions/' + itemResponseId)
+            .end((err, res) => {
+                res.should.have.status(200);
+            done()
+        })
+    })
+    })
 
-
-
-    //    // DELETE menu
-    //     describe('DELETE menu delete menu', () => {
-    //         it('it should DELETE menu', (done) => {
-    //             chai.request(server)
-    //             .delete('/api/menu/' + responseId + '/menuCategory/' + categoryResponseId)
-    //             .set('Content-Type', 'application/json')
-    //             .end((err, res) => {
-    //                 res.should.have.status(200);
-    //                 res.body.should.be.a('object')
-    //                 res.body.should.have.property('message').eql('Menu was deleted successfully!')
-    //             done()
-    //             })
-    //         })
-
-    //         it('it should return 404 on GET', (done) => {
-    //             chai.request(server)
-    //             .get('/api/menu/' + responseId)
-    //             .set('Content-Type', 'application/json')
-    //             .end((err, res) => {
-    //                 res.should.have.status(404);
-    //             done()
-    //             })
-    //         })
-    //     })
+    describe('GET deleted menuItem', () => {
+        it('it should return 404', (done) => {
+            chai.request(server)
+            .get('/api/menu/' + responseId + '/menuCategory/' + categoryResponseId + '/menuPositions/' + itemResponseId)
+            .end((err, res) => {
+                res.should.have.status(404);
+            
+            done()
+        })
+    })
+    })
     });
 });
