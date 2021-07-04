@@ -46,7 +46,7 @@ const edit = async (req, res) => {
         .then((num) => {
             console.log(num);
             if (num == 1) {
-                bill.findByPk(id).then((e) => res.send(e));
+                billItem.findByPk(id).then((e) => res.send(e));
             } else {
                 res.send({
                     message: `Cannot update bill with${id}. check body or bill is not found!`,
