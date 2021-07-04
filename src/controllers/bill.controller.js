@@ -224,6 +224,19 @@ const edit = async (req, res) => {
 const remove = async (req, res) => {
     const id = req.params.id;
 
+    let billItems = await BillItem.findAll({
+        where: {
+            billId: id,
+        },
+    })
+
+    await Promise.all(
+        billItems.map(async item => {
+            await item.destroy()
+        })
+    )
+
+
     Bill.destroy({
         where: { id: id },
     })
