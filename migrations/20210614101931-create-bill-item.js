@@ -1,37 +1,32 @@
 'use strict';
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-        await queryInterface.createTable('MenuPositions', {
+        await queryInterface.createTable('BillItems', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            menuCategoryId: {
+            menuPositionId: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
                 references: {
-                    model: 'MenuCategories',
+                    model: 'MenuPositions',
                     key: 'id',
                 },
             },
-            name: {
-                type: Sequelize.STRING,
-            },
-            price: {
-                type: Sequelize.DECIMAL(10, 2),
-            },
-            currencyId: {
+            billId: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
                 references: {
-                    model: 'Currencies',
+                    model: 'Bills',
                     key: 'id',
                 },
             },
             active: {
                 type: Sequelize.BOOLEAN,
+                allowNull: false,
                 defaultValue: true,
             },
             createdAt: {
@@ -45,6 +40,6 @@ module.exports = {
         });
     },
     down: async (queryInterface, Sequelize) => {
-        await queryInterface.dropTable('MenuPositions');
+        await queryInterface.dropTable('OrderPositions');
     },
 };
