@@ -46,7 +46,7 @@ let price = 0;
           
 
     }catch(err){
-        res.send(err,'errror')
+        res.send(err)
     }
 
     try{
