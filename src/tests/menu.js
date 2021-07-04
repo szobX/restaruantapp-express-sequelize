@@ -51,7 +51,8 @@ describe('Menu', () => {
         describe('POST menu create menu', () => {
             it('it should POST new menu', (done) => {
                 let req = {
-                    "name": "Test Menu"
+                    "name": "Test Menu",
+                    "description": "test"
                 }
                 chai.request(server)
                 .post('/api/menu')

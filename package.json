@@ -7,6 +7,13 @@
         "dev": "nodemon src/app.js",
         "test:user": "node ./node_modules/mocha/bin/mocha src/tests/user.js",
         "test:menu": "node ./node_modules/mocha/bin/mocha src/tests/menu.js",
+        "test:currency": "node ./node_modules/mocha/bin/mocha src/tests/currency.js",
+        "test:order": "node ./node_modules/mocha/bin/mocha src/tests/order.js",
+        "test:menuCategories": "node ./node_modules/mocha/bin/mocha src/tests/menuCategories.js",
+        "test:orderItems": "node ./node_modules/mocha/bin/mocha src/tests/orderItems.js",
+        "test:menuItems": "node ./node_modules/mocha/bin/mocha src/tests/menuItems.js",
+        "test:orderRecount": "node ./node_modules/mocha/bin/mocha src/tests/orderRecount.js",
+        "test:all": "node ./node_modules/mocha/bin/mocha src/tests/*.js",
         "lint:js": "eslint --ext .js,--ignore-path .gitignore ."
     },
     "dependencies": {
