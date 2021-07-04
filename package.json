@@ -29,7 +29,7 @@
         "lodash": "^4.17.21",
         "mocha": "^8.4.0",
         "mysql2": "^2.2.5",
-        "sequelize": "^6.6.2",
+        "sequelize": "^6.6.4",
         "winston": "^3.3.3"
     },
     "devDependencies": {

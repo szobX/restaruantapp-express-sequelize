@@ -44,7 +44,7 @@ module.exports = {
     },
 
     down: async (queryInterface, Sequelize) => {
-        return queryInterface.dropTable('menuCategories'); /**
+        return queryInterface.dropTable('MenuCategories'); /**
 
         /**
          * Add commands to revert seed here.

@@ -33,7 +33,7 @@ module.exports = {
             {
                 name: 'Pomidorowa',
                 menuCategoryId: 3,
-                price: 2,
+                price: 9,
                 currencyId: 1,
                 active: true,
                 createdAt: new Date(),
