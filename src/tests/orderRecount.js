@@ -25,113 +25,114 @@ describe('orderRecount', () => {
                     "price": "123.00",
                     "CurrencyId": 1,
                     "active": true,
-                    "menuPositions": [1,2,3]
+                    "menuPositions": [1, 2, 3]
                 }
                 chai.request(server)
-                .post('/api/order')
-                .set('Content-Type', 'application/json')
-                .send(req)
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object')
-                    responseId = res.body.id
-
-                done()
-                })
-            })
-        
-
-        // GET 1 order
-        describe('GET one order', () => {
-            it('it should GET previously created order', (done) => {
-                chai.request(server)
-                    .get('/api/order/' + responseId)
+                    .post('/api/order')
+                    .set('Content-Type', 'application/json')
+                    .send(req)
                     .end((err, res) => {
                         res.should.have.status(200);
-                        res.body['order'].should.be.a('object')
-                        .that.has.all.keys([ 'id', 
-                                            'tableNumber',
-                                            'number',
-                                            'clientId', 
-                                            'currencyId', 
-                                            'price', 
-                                            'active', 
-                                            'status', 
-                                            'createdAt', 
-                                            'updatedAt',
-                                            'CurrencyId',
-                                            'user',
-                                            'currency'
-                                        ])
-                        res.body['order'].should.have.property('id').eql(responseId);
-                        res.body['order'].should.have.property('active').eql(true)
-                        price = res.body['order']['price'];
-                      done();
-                    });
+                        res.body.should.be.a('object')
+                        responseId = res.body.id
+
+                        done()
+                    })
+            })
+
+
+            // GET 1 order
+            describe('GET one order', () => {
+                it('it should GET previously created order', (done) => {
+                    chai.request(server)
+                        .get('/api/order/' + responseId)
+                        .end((err, res) => {
+                            res.should.have.status(200);
+                            res.body['order'].should.be.a('object')
+                                .that.has.all.keys(['id',
+                                    'tableNumber',
+                                    'number',
+                                    'clientId',
+                                    'currencyId',
+                                    'price',
+                                    'active',
+                                    'status',
+                                    'createdAt',
+                                    'updatedAt',
+                                    'CurrencyId',
+                                    'user',
+                                    'currency'
+                                ])
+                            res.body['order'].should.have.property('id').eql(responseId);
+                            res.body['order'].should.have.property('active').eql(true)
+                            price = res.body['order']['price'];
+                            done();
+                        });
                 });
-        }
-    )
+            }
+            )
 
-         // POST /api/currency/{id}
-         describe('POST currency', () => {
-            it('it should create new currency', (done) => {
-                let req = {
-                    "name": "Dollar",
-                    "symbol": "$",
-                    "exchangeRate": "3.69",
-                    "active": true
-                }
-                chai.request(server)
-                .post('/api/currency')
-                .set('Content-Type', 'application/json')
-                .send(req)
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object')
-                    .that.has.all.keys([ 'id', 'name', 'symbol', 'exchangeRate', 'active', 'createdAt', 'updatedAt' ]);
-                    currencyResponseId = res.body.id
-                    done()
-                })
-                
-            })
-        })
+            // POST /api/currency/{id}
+            describe('POST currency', () => {
+                it('it should create new currency', (done) => {
+                    let req = {
+                        "name": "Dollar",
+                        "symbol": "$",
+                        "exchangeRate": "3.69",
+                        "active": true
+                    }
+                    chai.request(server)
+                        .post('/api/currency')
+                        .set('Content-Type', 'application/json')
+                        .send(req)
+                        .end((err, res) => {
+                            res.should.have.status(200);
+                            res.body.should.be.a('object')
+                                .that.has.all.keys(['id', 'name', 'symbol', 'exchangeRate', 'active', 'createdAt', 'updatedAt']);
+                            currencyResponseId = res.body.id
+                            done()
+                        })
 
-        // GET one currency
-        describe('GET one currency', () => {
-            it('it should GET previously created currency', (done) => {
-                chai.request(server)
-                .get('/api/currency/' + currencyResponseId)
-                .end((err,  res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object')
-                    .that.has.all.keys([ 'id', 'name', 'symbol', 'exchangeRate', 'active', 'createdAt', 'updatedAt' ])
-                    res.body.should.have.property('id').eql(currencyResponseId);
-                    res.body.should.have.property('name').eql('Dollar');
-                    res.body.should.have.property('symbol').eql('$');
-                    res.body.should.have.property('exchangeRate').eql('3.69');
-                    res.body.should.have.property('active').eql(true);
-                    done()
                 })
             })
-        })
 
-        describe('PUT recount order', () => {
-            it('it should recount order to dollars', (done) => {
-                let req = {
-                    "currencyId": currencyResponseId
-                }
-                const check = (price * 3.69).toFixed(2)
-                chai.request(server)
-                .post('/api/order/' + responseId + '/recount/')
-                .set('Content-Type', 'application/json')
-                .send(req)
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object')
-                    res.body.should.have.property('price').eql(check);
-                    done()
+            // GET one currency
+            describe('GET one currency', () => {
+                it('it should GET previously created currency', (done) => {
+                    chai.request(server)
+                        .get('/api/currency/' + currencyResponseId)
+                        .end((err, res) => {
+                            res.should.have.status(200);
+                            res.body.should.be.a('object')
+                                .that.has.all.keys(['id', 'name', 'symbol', 'exchangeRate', 'active', 'createdAt', 'updatedAt'])
+                            res.body.should.have.property('id').eql(currencyResponseId);
+                            res.body.should.have.property('name').eql('Dollar');
+                            res.body.should.have.property('symbol').eql('$');
+                            res.body.should.have.property('exchangeRate').eql('3.69');
+                            res.body.should.have.property('active').eql(true);
+                            done()
+                        })
                 })
-            })})
+            })
+
+            describe('PUT recount order', () => {
+                it('it should recount order to dollars', (done) => {
+                    let req = {
+                        "currencyId": currencyResponseId
+                    }
+                    const check = (price * 3.69).toFixed(2)
+                    chai.request(server)
+                        .post('/api/order/' + responseId + '/recount/')
+                        .set('Content-Type', 'application/json')
+                        .send(req)
+                        .end((err, res) => {
+                            res.should.have.status(200);
+                            res.body.should.be.a('object')
+                            res.body.should.have.property('price').eql(check);
+                            done()
+                        })
+                })
+            })
         });
     })
 });

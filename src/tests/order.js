@@ -21,14 +21,14 @@ describe('Order', () => {
                 chai.request(server)
                     .get('/api/order')
                     .end((err, res) => {
-                          res.should.have.status(200);
-                          res.body.should.be.a('array');
-                          res.body.length.should.be.at.least(1);
-                      done();
+                        res.should.have.status(200);
+                        res.body.should.be.a('array');
+                        res.body.length.should.be.at.least(1);
+                        done();
                     });
-              });
+            });
         })
-    
+
         // check if /api/order array returns 11 positions
 
         describe('GET orders number of properties', () => {
@@ -39,19 +39,19 @@ describe('Order', () => {
                         expect(res.body)
                             .to.be.an.instanceof(Array)
                             .and.to.have.property(0)
-                            .that.has.all.keys([ 'id', 
-                                                'tableNumber',
-                                                'number',
-                                                'clientId', 
-                                                'currencyId', 
-                                                'price', 
-                                                'active', 
-                                                'status', 
-                                                'createdAt', 
-                                                'updatedAt',
-                                                'CurrencyId'
-                                            ])
-                    done()
+                            .that.has.all.keys(['id',
+                                'tableNumber',
+                                'number',
+                                'clientId',
+                                'currencyId',
+                                'price',
+                                'active',
+                                'status',
+                                'createdAt',
+                                'updatedAt',
+                                'CurrencyId'
+                            ])
+                        done()
                     })
             })
         })
@@ -67,35 +67,35 @@ describe('Order', () => {
                     "price": "123.00",
                     "CurrencyId": 1,
                     "active": true,
-                    "menuPositions": [1,2,3]
+                    "menuPositions": [1, 2, 3]
                 }
                 chai.request(server)
-                .post('/api/order')
-                .set('Content-Type', 'application/json')
-                .send(req)
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object')
-                    responseId = res.body.id
-                done()
-                })
+                    .post('/api/order')
+                    .set('Content-Type', 'application/json')
+                    .send(req)
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.a('object')
+                        responseId = res.body.id
+                        done()
+                    })
             })
         })
 
         // GET 1 order
         describe('GET one order', () => {
-                it('it should GET previously created order', (done) => {
-                    chai.request(server)
-                        .get('/api/order/' + responseId)
-                        .end((err, res) => {
-                            res.should.have.status(200);
-                            res.body.should.be.a('object')
-                            res.body['order'].should.have.property('id').eql(responseId);
-                            res.body['order'].should.have.property('active').eql(true)
-                          done();
-                        });
+            it('it should GET previously created order', (done) => {
+                chai.request(server)
+                    .get('/api/order/' + responseId)
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.a('object')
+                        res.body['order'].should.have.property('id').eql(responseId);
+                        res.body['order'].should.have.property('active').eql(true)
+                        done();
                     });
-            }
+            });
+        }
         )
 
         // PUT ORDER
@@ -105,53 +105,53 @@ describe('Order', () => {
                     "active": false
                 }
                 chai.request(server)
-                .put('/api/order/' + responseId)
-                .send(req)
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object')
-                    .that.has.all.keys([ 'id', 
-                    'tableNumber',
-                    'number',
-                    'clientId', 
-                    'currencyId', 
-                    'price', 
-                    'active', 
-                    'status', 
-                    'createdAt', 
-                    'updatedAt',
-                    'CurrencyId'
-                ])
-                    res.body.should.have.property('id').eql(responseId);
-                    res.body.should.have.property('active').eql(false)
-                    done()
-                })
+                    .put('/api/order/' + responseId)
+                    .send(req)
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.a('object')
+                            .that.has.all.keys(['id',
+                                'tableNumber',
+                                'number',
+                                'clientId',
+                                'currencyId',
+                                'price',
+                                'active',
+                                'status',
+                                'createdAt',
+                                'updatedAt',
+                                'CurrencyId'
+                            ])
+                        res.body.should.have.property('id').eql(responseId);
+                        res.body.should.have.property('active').eql(false)
+                        done()
+                    })
             })
         })
 
 
-       // DELETE order
+        // DELETE order
         describe('DELETE /api/order delete order', () => {
             it('it should DELETE order', (done) => {
                 chai.request(server)
-                .delete('/api/order/' + responseId)
-                .set('Content-Type', 'application/json')
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object')
-                    res.body.should.have.property('message').eql('Order was deleted successfully!')
-                done()
-                })
+                    .delete('/api/order/' + responseId)
+                    .set('Content-Type', 'application/json')
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.a('object')
+                        res.body.should.have.property('message').eql('Order was deleted successfully!')
+                        done()
+                    })
             })
 
             it('it should return 404 on GET', (done) => {
                 chai.request(server)
-                .get('/api/order/' + responseId)
-                .set('Content-Type', 'application/json')
-                .end((err, res) => {
-                    res.should.have.status(404);
-                done()
-                })
+                    .get('/api/order/' + responseId)
+                    .set('Content-Type', 'application/json')
+                    .end((err, res) => {
+                        res.should.have.status(404);
+                        done()
+                    })
             })
         })
     });

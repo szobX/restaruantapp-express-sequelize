@@ -18,41 +18,41 @@ describe('splitBill', () => {
         describe('POST /api/bill create bill', () => {
             it('it should POST new bill', (done) => {
                 let req = {
-                        "orderId": 1,
-                        "items": [1,2,3]
-                    
+                    "orderId": 1,
+                    "items": [1, 2, 3]
+
                 }
                 chai.request(server)
-                .post('/api/bill')
-                .set('Content-Type', 'application/json')
-                .send(req)
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object')
-                    .that.has.all.keys([ 'id',
-                    'orderId',
-                    'clientId',
-                    'currencyId',
-                    'price',
-                    'active',
-                    'createdAt',
-                    'updatedAt'
-                ])
-                    responseId = res.body.id
-                done()
-                })
+                    .post('/api/bill')
+                    .set('Content-Type', 'application/json')
+                    .send(req)
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.a('object')
+                            .that.has.all.keys(['id',
+                                'orderId',
+                                'clientId',
+                                'currencyId',
+                                'price',
+                                'active',
+                                'createdAt',
+                                'updatedAt'
+                            ])
+                        responseId = res.body.id
+                        done()
+                    })
             })
         })
 
-       // GET 1 bill
-       describe('GET one bill', () => {
-        it('it should GET previously created bill', (done) => {
-            chai.request(server)
-                .get('/api/bill/' + responseId)
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.an('object').and.have.property('bill')
-                    .that.has.all.keys([
+        // GET 1 bill
+        describe('GET one bill', () => {
+            it('it should GET previously created bill', (done) => {
+                chai.request(server)
+                    .get('/api/bill/' + responseId)
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.an('object').and.have.property('bill')
+                            .that.has.all.keys([
                                 'id',
                                 'orderId',
                                 'clientId',
@@ -63,11 +63,11 @@ describe('splitBill', () => {
                                 'updatedAt',
                                 'user',
                                 'currency',
-                                    ])
-                    res.body['bill'].should.have.property('id').eql(responseId);
-                    res.body['bill'].should.have.property('active').eql(true)
-                  done();
-                });
+                            ])
+                        res.body['bill'].should.have.property('id').eql(responseId);
+                        res.body['bill'].should.have.property('active').eql(true)
+                        done();
+                    });
             });
         })
 
@@ -75,30 +75,31 @@ describe('splitBill', () => {
             it('it should split bill', (done) => {
                 let req = {
                     "clientId": 1,
-                    "items": [1,2,3]
+                    "items": [1, 2, 3]
                 }
-                
-                chai.request(server)
-                .post('/api/bill/' + responseId + '/split/')
-                .set('Content-Type', 'application/json')
-                .send(req)
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object')
-                    .that.has.property('message').eql("Bill has been split successfully!")
-                    done()
-                })
-            })})
 
-                   // GET 1 bill
-       describe('GET one bill with empty items', () => {
-        it('it should GET previously created bill with empty items', (done) => {
-            chai.request(server)
-                .get('/api/bill/' + responseId)
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.an('object').and.have.property('bill')
-                    .that.has.all.keys([
+                chai.request(server)
+                    .post('/api/bill/' + responseId + '/split/')
+                    .set('Content-Type', 'application/json')
+                    .send(req)
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.a('object')
+                            .that.has.property('message').eql("Bill has been split successfully!")
+                        done()
+                    })
+            })
+        })
+
+        // GET 1 bill
+        describe('GET one bill with empty items', () => {
+            it('it should GET previously created bill with empty items', (done) => {
+                chai.request(server)
+                    .get('/api/bill/' + responseId)
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.an('object').and.have.property('bill')
+                            .that.has.all.keys([
                                 'id',
                                 'orderId',
                                 'clientId',
@@ -109,12 +110,12 @@ describe('splitBill', () => {
                                 'updatedAt',
                                 'user',
                                 'currency',
-                                    ])
-                    res.body['bill'].should.have.property('id').eql(responseId);
-                    res.body.should.have.property('items').that.is.empty
-                  done();
-                });
+                            ])
+                        res.body['bill'].should.have.property('id').eql(responseId);
+                        res.body.should.have.property('items').that.is.empty
+                        done();
+                    });
             });
         })
-        });
+    });
 });

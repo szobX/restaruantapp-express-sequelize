@@ -7,6 +7,7 @@ let server = "http://127.0.0.1:3005"
 let responseId = 0;
 let should = chai.should();
 let categoryResponseId = 0;
+let itemResponseId = 0;
 chai.use(chaiHttp);
 
 describe('MenuCategories', () => {
@@ -23,16 +24,16 @@ describe('MenuCategories', () => {
                     "description": "categoryId test"
                 }
                 chai.request(server)
-                .post('/api/menu')
-                .set('Content-Type', 'application/json')
-                .send(req)
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object')
-                    .that.has.all.keys([ 'id', 'name', 'active', 'createdAt', 'updatedAt' ])
-                    responseId = res.body.id
-                done()
-                })
+                    .post('/api/menu')
+                    .set('Content-Type', 'application/json')
+                    .send(req)
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.a('object')
+                            .that.has.all.keys(['id', 'name', 'active', 'createdAt', 'updatedAt'])
+                        responseId = res.body.id
+                        done()
+                    })
             })
         })
 
@@ -42,42 +43,42 @@ describe('MenuCategories', () => {
                     "name": "testCategory"
                 }
                 chai.request(server)
-                .post('/api/menu/' + responseId + '/menuCategory/')
-                .send(req)
-                .set('Content-Type', 'application/json')
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object')
-                    .that.has.all.keys([ 'id', 'menuId', 'name', 'active', 'createdAt', 'updatedAt'])
-                    categoryResponseId = res.body.id
-                done()
-                })
+                    .post('/api/menu/' + responseId + '/menuCategory/')
+                    .send(req)
+                    .set('Content-Type', 'application/json')
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.a('object')
+                            .that.has.all.keys(['id', 'menuId', 'name', 'active', 'createdAt', 'updatedAt'])
+                        categoryResponseId = res.body.id
+                        done()
+                    })
             })
 
             it('it should fail to POST new category', (done) => {
                 let req = {
                 }
                 chai.request(server)
-                .post('/api/menu/' + responseId + '/menuCategory/')
-                .send(req)
-                .set('Content-Type', 'application/json')
-                .end((err, res) => {
-                    res.should.have.status(400);
-                done()
-                })
+                    .post('/api/menu/' + responseId + '/menuCategory/')
+                    .send(req)
+                    .set('Content-Type', 'application/json')
+                    .end((err, res) => {
+                        res.should.have.status(400);
+                        done()
+                    })
             })
         })
 
         describe('GET menu created category', () => {
             it('it should GET created category', (done) => {
                 chai.request(server)
-                .get('/api/menu/' + responseId + '/menuCategory/' + categoryResponseId)
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object')
-                    .that.has.all.keys([ 'id', 'menuId', 'name', 'active', 'createdAt', 'updatedAt', 'MenuId', 'menu'])
-                    done()
-                })
+                    .get('/api/menu/' + responseId + '/menuCategory/' + categoryResponseId)
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.a('object')
+                            .that.has.all.keys(['id', 'menuId', 'name', 'active', 'createdAt', 'updatedAt', 'MenuId', 'menu'])
+                        done()
+                    })
             })
         })
 
@@ -92,40 +93,39 @@ describe('MenuCategories', () => {
                     "MenuCategoryId": 1
                 }
                 chai.request(server)
-                .post('/api/menu/' + responseId + '/menuCategory/' + categoryResponseId + '/menuPositions/')
-                .send(req)
-                .set('Content-Type', 'application/json')
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object')
-                    itemResponseId = res.body.id
-                done()
+                    .post('/api/menu/' + responseId + '/menuCategory/' + categoryResponseId + '/menuPositions/')
+                    .send(req)
+                    .set('Content-Type', 'application/json')
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.a('object')
+                        itemResponseId = res.body.id
+                        done()
+                    })
             })
         })
-    })
-    // DELETE THIS
-    itemResponseId = 1;
-    describe('DELETE created menuItem', () => {
-        it('it should DELETE created menuItem', (done) => {
-            chai.request(server)
-            .delete('/api/menu/' + responseId + '/menuCategory/' + categoryResponseId + '/menuPositions/' + itemResponseId)
-            .end((err, res) => {
-                res.should.have.status(200);
-            done()
+        // DELETE THIS
+        describe('DELETE created menuItem', () => {
+            it('it should DELETE created menuItem', (done) => {
+                chai.request(server)
+                    .delete('/api/menu/' + responseId + '/menuCategory/' + categoryResponseId + '/menuPositions/' + itemResponseId)
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        done()
+                    })
+            })
         })
-    })
-    })
 
-    describe('GET deleted menuItem', () => {
-        it('it should return 404', (done) => {
-            chai.request(server)
-            .get('/api/menu/' + responseId + '/menuCategory/' + categoryResponseId + '/menuPositions/' + itemResponseId)
-            .end((err, res) => {
-                res.should.have.status(404);
-            
-            done()
+        describe('GET deleted menuItem', () => {
+            it('it should return 404', (done) => {
+                chai.request(server)
+                    .get('/api/menu/' + responseId + '/menuCategory/' + categoryResponseId + '/menuPositions/' + itemResponseId)
+                    .end((err, res) => {
+                        res.should.have.status(404);
+
+                        done()
+                    })
+            })
         })
-    })
-    })
     });
 });

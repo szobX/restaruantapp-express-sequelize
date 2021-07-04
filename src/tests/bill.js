@@ -22,14 +22,14 @@ describe('Bill', () => {
                 chai.request(server)
                     .get('/api/bill')
                     .end((err, res) => {
-                          res.should.have.status(200);
-                          res.body.should.be.a('array');
-                          res.body.length.should.be.at.least(1);
-                      done();
+                        res.should.have.status(200);
+                        res.body.should.be.a('array');
+                        res.body.length.should.be.at.least(1);
+                        done();
                     });
-              });
+            });
         })
-    
+
         // check if /api/bills array returns 11 positions
 
         describe('GET bills number of properties', () => {
@@ -40,16 +40,16 @@ describe('Bill', () => {
                         expect(res.body)
                             .to.be.an.instanceof(Array)
                             .and.to.have.property(0)
-                            .that.has.all.keys([ 'id',
-                                        'orderId',
-                                        'clientId',
-                                        'currencyId',
-                                        'price',
-                                        'active',
-                                        'createdAt',
-                                        'updatedAt'
-                                            ])
-                    done()
+                            .that.has.all.keys(['id',
+                                'orderId',
+                                'clientId',
+                                'currencyId',
+                                'price',
+                                'active',
+                                'createdAt',
+                                'updatedAt'
+                            ])
+                        done()
                     })
             })
         })
@@ -58,59 +58,59 @@ describe('Bill', () => {
         describe('POST /api/bill create bill', () => {
             it('it should POST new bill', (done) => {
                 let req = {
-                        "orderId": 1
-                    
+                    "orderId": 1
+
                 }
                 chai.request(server)
-                .post('/api/bill')
-                .set('Content-Type', 'application/json')
-                .send(req)
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object')
-                    .that.has.all.keys([ 'id',
-                    'orderId',
-                    'clientId',
-                    'currencyId',
-                    'price',
-                    'active',
-                    'createdAt',
-                    'updatedAt'
-                ])
-                    responseId = res.body.id
-                    //res.body.errors.should.have.property('pages');
-                    //res.body.errors.pages.should.have.property('kind').eql('required');
-                done()
-                })
+                    .post('/api/bill')
+                    .set('Content-Type', 'application/json')
+                    .send(req)
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.a('object')
+                            .that.has.all.keys(['id',
+                                'orderId',
+                                'clientId',
+                                'currencyId',
+                                'price',
+                                'active',
+                                'createdAt',
+                                'updatedAt'
+                            ])
+                        responseId = res.body.id
+                        //res.body.errors.should.have.property('pages');
+                        //res.body.errors.pages.should.have.property('kind').eql('required');
+                        done()
+                    })
             })
         })
 
         // GET 1 bill
         describe('GET one bill', () => {
-                it('it should GET previously created bill', (done) => {
-                    chai.request(server)
-                        .get('/api/bill/' + responseId)
-                        .end((err, res) => {
-                            res.should.have.status(200);
-                            res.body.should.be.an('object').and.have.property('bill')
+            it('it should GET previously created bill', (done) => {
+                chai.request(server)
+                    .get('/api/bill/' + responseId)
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.an('object').and.have.property('bill')
                             .that.has.all.keys([
-                                        'id',
-                                        'orderId',
-                                        'clientId',
-                                        'currencyId',
-                                        'price',
-                                        'active',
-                                        'createdAt',
-                                        'updatedAt',
-                                        'user',
-                                        'currency',
-                                            ])
-                            res.body['bill'].should.have.property('id').eql(responseId);
-                            res.body['bill'].should.have.property('active').eql(true)
-                          done();
-                        });
+                                'id',
+                                'orderId',
+                                'clientId',
+                                'currencyId',
+                                'price',
+                                'active',
+                                'createdAt',
+                                'updatedAt',
+                                'user',
+                                'currency',
+                            ])
+                        res.body['bill'].should.have.property('id').eql(responseId);
+                        res.body['bill'].should.have.property('active').eql(true)
+                        done();
                     });
-            }
+            });
+        }
         )
 
         // PUT bill
@@ -120,51 +120,51 @@ describe('Bill', () => {
                     "active": false
                 }
                 chai.request(server)
-                .put('/api/bill/' + responseId)
-                .send(req)
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.an('object')
-                    .that.has.all.keys([
-                        'id',
-                        'orderId',
-                        'clientId',
-                        'currencyId',
-                        'price',
-                        'active',
-                        'createdAt',
-                        'updatedAt'
+                    .put('/api/bill/' + responseId)
+                    .send(req)
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.an('object')
+                            .that.has.all.keys([
+                                'id',
+                                'orderId',
+                                'clientId',
+                                'currencyId',
+                                'price',
+                                'active',
+                                'createdAt',
+                                'updatedAt'
                             ])
-                    res.body.should.have.property('id').eql(responseId);
-                    res.body.should.have.property('active').eql(false)
-                    done()
-                })
+                        res.body.should.have.property('id').eql(responseId);
+                        res.body.should.have.property('active').eql(false)
+                        done()
+                    })
             })
         })
 
 
-       // DELETE bill
+        // DELETE bill
         describe('DELETE /api/bill delete bill', () => {
             it('it should DELETE bill', (done) => {
                 chai.request(server)
-                .delete('/api/bill/' + responseId)
-                .set('Content-Type', 'application/json')
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object')
-                    res.body.should.have.property('message').eql('Bill was deleted successfully!')
-                done()
-                })
+                    .delete('/api/bill/' + responseId)
+                    .set('Content-Type', 'application/json')
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.a('object')
+                        res.body.should.have.property('message').eql('Bill was deleted successfully!')
+                        done()
+                    })
             })
 
             it('it should return 404 on GET', (done) => {
                 chai.request(server)
-                .get('/api/bill/' + responseId)
-                .set('Content-Type', 'application/json')
-                .end((err, res) => {
-                    res.should.have.status(404);
-                done()
-                })
+                    .get('/api/bill/' + responseId)
+                    .set('Content-Type', 'application/json')
+                    .end((err, res) => {
+                        res.should.have.status(404);
+                        done()
+                    })
             })
         })
     });

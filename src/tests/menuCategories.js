@@ -23,16 +23,16 @@ describe('MenuCategories', () => {
                     "description": "testing"
                 }
                 chai.request(server)
-                .post('/api/menu')
-                .set('Content-Type', 'application/json')
-                .send(req)
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object')
-                    .that.has.all.keys([ 'id', 'name', 'active', 'createdAt', 'updatedAt' ])
-                    responseId = res.body.id
-                done()
-                })
+                    .post('/api/menu')
+                    .set('Content-Type', 'application/json')
+                    .send(req)
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.a('object')
+                            .that.has.all.keys(['id', 'name', 'active', 'createdAt', 'updatedAt'])
+                        responseId = res.body.id
+                        done()
+                    })
             })
         })
 
@@ -42,71 +42,71 @@ describe('MenuCategories', () => {
                     "name": "testCategory"
                 }
                 chai.request(server)
-                .post('/api/menu/' + responseId + '/menuCategory/')
-                .set('Content-Type', 'application/json')
-                .send(req)
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object')
-                    .that.has.all.keys([ 'id', 'menuId', 'name', 'active', 'createdAt', 'updatedAt'])
-                    categoryResponseId = res.body.id
-                done()
-                })
+                    .post('/api/menu/' + responseId + '/menuCategory/')
+                    .set('Content-Type', 'application/json')
+                    .send(req)
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.a('object')
+                            .that.has.all.keys(['id', 'menuId', 'name', 'active', 'createdAt', 'updatedAt'])
+                        categoryResponseId = res.body.id
+                        done()
+                    })
             })
 
             it('it should fail to POST new category', (done) => {
                 let req = {
                 }
                 chai.request(server)
-                .post('/api/menu/' + responseId + '/menuCategory/')
-                .send(req)
-                .set('Content-Type', 'application/json')
-                .end((err, res) => {
-                    res.should.have.status(400);
-                done()
-                })
+                    .post('/api/menu/' + responseId + '/menuCategory/')
+                    .send(req)
+                    .set('Content-Type', 'application/json')
+                    .end((err, res) => {
+                        res.should.have.status(400);
+                        done()
+                    })
             })
         })
 
         describe('GET menu created category', () => {
             it('it should GET created category', (done) => {
                 chai.request(server)
-                .get('/api/menu/' + responseId + '/menuCategory/' + categoryResponseId)
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object')
-                    .that.has.all.keys([ 'id', 'menuId', 'name', 'active', 'createdAt', 'updatedAt', 'MenuId', 'menu'])
-                    done()
-                })
+                    .get('/api/menu/' + responseId + '/menuCategory/' + categoryResponseId)
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.a('object')
+                            .that.has.all.keys(['id', 'menuId', 'name', 'active', 'createdAt', 'updatedAt', 'MenuId', 'menu'])
+                        done()
+                    })
             })
         })
 
 
 
 
-    //    // DELETE menu
-    //     describe('DELETE menu delete menu', () => {
-    //         it('it should DELETE menu', (done) => {
-    //             chai.request(server)
-    //             .delete('/api/menu/' + responseId + '/menuCategory/' + categoryResponseId)
-    //             .set('Content-Type', 'application/json')
-    //             .end((err, res) => {
-    //                 res.should.have.status(200);
-    //                 res.body.should.be.a('object')
-    //                 res.body.should.have.property('message').eql('Menu was deleted successfully!')
-    //             done()
-    //             })
-    //         })
+        //    // DELETE menu
+        //     describe('DELETE menu delete menu', () => {
+        //         it('it should DELETE menu', (done) => {
+        //             chai.request(server)
+        //             .delete('/api/menu/' + responseId + '/menuCategory/' + categoryResponseId)
+        //             .set('Content-Type', 'application/json')
+        //             .end((err, res) => {
+        //                 res.should.have.status(200);
+        //                 res.body.should.be.a('object')
+        //                 res.body.should.have.property('message').eql('Menu was deleted successfully!')
+        //             done()
+        //             })
+        //         })
 
-    //         it('it should return 404 on GET', (done) => {
-    //             chai.request(server)
-    //             .get('/api/menu/' + responseId)
-    //             .set('Content-Type', 'application/json')
-    //             .end((err, res) => {
-    //                 res.should.have.status(404);
-    //             done()
-    //             })
-    //         })
-    //     })
+        //         it('it should return 404 on GET', (done) => {
+        //             chai.request(server)
+        //             .get('/api/menu/' + responseId)
+        //             .set('Content-Type', 'application/json')
+        //             .end((err, res) => {
+        //                 res.should.have.status(404);
+        //             done()
+        //             })
+        //         })
+        //     })
     });
 });

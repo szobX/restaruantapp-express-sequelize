@@ -21,14 +21,14 @@ describe('Menu', () => {
                 chai.request(server)
                     .get('/api/menu')
                     .end((err, res) => {
-                          res.should.have.status(200);
-                          res.body.should.be.a('array');
-                          res.body.length.should.be.at.least(1);
-                      done();
+                        res.should.have.status(200);
+                        res.body.should.be.a('array');
+                        res.body.length.should.be.at.least(1);
+                        done();
                     });
-              });
+            });
         })
-    
+
         // check if /api/menus array returns 4 positions
 
         describe('GET menus number of properties', () => {
@@ -39,8 +39,8 @@ describe('Menu', () => {
                         expect(res.body)
                             .to.be.an.instanceof(Array)
                             .and.to.have.property(0)
-                            .that.has.all.keys([ 'id', 'name', 'active', 'createdAt', 'updatedAt' ])
-                    done()
+                            .that.has.all.keys(['id', 'name', 'active', 'createdAt', 'updatedAt'])
+                        done()
                     })
             })
         })
@@ -53,37 +53,37 @@ describe('Menu', () => {
                     "description": "test"
                 }
                 chai.request(server)
-                .post('/api/menu')
-                .set('Content-Type', 'application/json')
-                .send(req)
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object')
-                    .that.has.all.keys([ 'id', 'name', 'active', 'createdAt', 'updatedAt' ])
-                    responseId = res.body.id
-                    //res.body.errors.should.have.property('pages');
-                    //res.body.errors.pages.should.have.property('kind').eql('required');
-                done()
-                })
+                    .post('/api/menu')
+                    .set('Content-Type', 'application/json')
+                    .send(req)
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.a('object')
+                            .that.has.all.keys(['id', 'name', 'active', 'createdAt', 'updatedAt'])
+                        responseId = res.body.id
+                        //res.body.errors.should.have.property('pages');
+                        //res.body.errors.pages.should.have.property('kind').eql('required');
+                        done()
+                    })
             })
         })
 
         // GET 1 menu
         describe('GET one menu', () => {
-                it('it should GET previously created menu', (done) => {
-                    chai.request(server)
-                        .get('/api/menu/' + responseId)
-                        .end((err, res) => {
-                            res.should.have.status(200);
-                            res.body.should.be.a('object')
-                            .that.has.all.keys([ 'id', 'name', 'active', 'createdAt', 'updatedAt' ])
-                            res.body.should.have.property('id').eql(responseId);
-                            res.body.should.have.property('name').eql('Test Menu')
-                            res.body.should.have.property('active').eql(true)
-                          done();
-                        });
+            it('it should GET previously created menu', (done) => {
+                chai.request(server)
+                    .get('/api/menu/' + responseId)
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.a('object')
+                            .that.has.all.keys(['id', 'name', 'active', 'createdAt', 'updatedAt'])
+                        res.body.should.have.property('id').eql(responseId);
+                        res.body.should.have.property('name').eql('Test Menu')
+                        res.body.should.have.property('active').eql(true)
+                        done();
                     });
-            }
+            });
+        }
         )
 
         // PUT MENU
@@ -94,43 +94,43 @@ describe('Menu', () => {
                     "active": false
                 }
                 chai.request(server)
-                .put('/api/menu/' + responseId)
-                .send(req)
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object')
-                    .that.has.all.keys([ 'id', 'name', 'active', 'createdAt', 'updatedAt' ])
-                    res.body.should.have.property('id').eql(responseId);
-                    res.body.should.have.property('name').eql('Production Menu')
-                    res.body.should.have.property('active').eql(false)
-                    done()
-                })
+                    .put('/api/menu/' + responseId)
+                    .send(req)
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.a('object')
+                            .that.has.all.keys(['id', 'name', 'active', 'createdAt', 'updatedAt'])
+                        res.body.should.have.property('id').eql(responseId);
+                        res.body.should.have.property('name').eql('Production Menu')
+                        res.body.should.have.property('active').eql(false)
+                        done()
+                    })
             })
         })
 
 
-       // DELETE menu
+        // DELETE menu
         describe('DELETE menu delete menu', () => {
             it('it should DELETE menu', (done) => {
                 chai.request(server)
-                .delete('/api/menu/' + responseId)
-                .set('Content-Type', 'application/json')
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object')
-                    res.body.should.have.property('message').eql('Menu was deleted successfully!')
-                done()
-                })
+                    .delete('/api/menu/' + responseId)
+                    .set('Content-Type', 'application/json')
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.a('object')
+                        res.body.should.have.property('message').eql('Menu was deleted successfully!')
+                        done()
+                    })
             })
 
             it('it should return 404 on GET', (done) => {
                 chai.request(server)
-                .get('/api/menu/' + responseId)
-                .set('Content-Type', 'application/json')
-                .end((err, res) => {
-                    res.should.have.status(404);
-                done()
-                })
+                    .get('/api/menu/' + responseId)
+                    .set('Content-Type', 'application/json')
+                    .end((err, res) => {
+                        res.should.have.status(404);
+                        done()
+                    })
             })
         })
     });
