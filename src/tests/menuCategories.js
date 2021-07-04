@@ -5,6 +5,7 @@ let chai = require('chai');
 let chaiHttp = require('chai-http');
 let server = "http://127.0.0.1:3005"
 let responseId = 0;
+let should = chai.should();
 let categoryResponseId = 0;
 chai.use(chaiHttp);
 
@@ -42,8 +43,8 @@ describe('MenuCategories', () => {
                 }
                 chai.request(server)
                 .post('/api/menu/' + responseId + '/menuCategory/')
-                .send(req)
                 .set('Content-Type', 'application/json')
+                .send(req)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a('object')

@@ -17,25 +17,29 @@ module.exports = {
         menuPositionId:1,
         orderId: 1,
         active: true,
-
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
       {
         menuPositionId:2,
         orderId: 1,
         active: true,
-
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
       {
         menuPositionId:1,
         orderId: 1,
         active: true,
-
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
       {
         menuPositionId:3,
         orderId: 2,
         active: true,
-
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
 
      ])

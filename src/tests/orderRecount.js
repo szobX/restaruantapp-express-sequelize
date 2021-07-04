@@ -4,6 +4,7 @@ process.env.NODE_ENV = 'test';
 let chai = require('chai');
 let chaiHttp = require('chai-http');
 let server = "http://127.0.0.1:3005"
+let should = chai.should();
 let responseId = 0;
 chai.use(chaiHttp);
 
@@ -13,48 +14,46 @@ describe('orderRecount', () => {
 
     describe('/api/order/recount test', () => {
 
-        // create new order
-        // describe('POST /api/order create order', () => {
-        //     it('it should POST new order', (done) => {
-        //         let req = {
-        //             "tableNumber": 1,
-        //             "number": "123",
-        //             "clientId": 1,
-        //             "currencyId": 1,
-        //             "price": "123.00",
-        //             "CurrencyId": 1,
-        //             "active": true
+        //create new order
+        describe('POST /api/order create order', () => {
+            it('it should POST new order', (done) => {
+                let req = {
+                    "tableNumber": 1,
+                    "number": "123",
+                    "clientId": 1,
+                    "currencyId": 1,
+                    "price": "123.00",
+                    "CurrencyId": 1,
+                    "active": true
                     
-        //         }
-        //         chai.request(server)
-        //         .post('/api/order')
-        //         .set('Content-Type', 'application/json')
-        //         .send(req)
-        //         .end((err, res) => {
-        //             res.should.have.status(200);
-        //             res.body.should.be.a('object')
-        //             .that.has.all.keys([ 'id', 
-        //             'tableNumber',
-        //             'number',
-        //             'clientId', 
-        //             'currencyId', 
-        //             'price', 
-        //             'active', 
-        //             'status', 
-        //             'createdAt', 
-        //             'updatedAt',
-        //             'CurrencyId'
-        //         ])
-        //             responseId = res.body.id
-        //             //res.body.errors.should.have.property('pages');
-        //             //res.body.errors.pages.should.have.property('kind').eql('required');
-        //         done()
-        //         })
-        //     })
-        // })
+                }
+                chai.request(server)
+                .post('/api/order')
+                .set('Content-Type', 'application/json')
+                .send(req)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object')
+                    .that.has.all.keys([ 'id', 
+                    'tableNumber',
+                    'number',
+                    'clientId', 
+                    'currencyId', 
+                    'price', 
+                    'active', 
+                    'status', 
+                    'createdAt', 
+                    'updatedAt',
+                    'CurrencyId'
+                ])
+                    responseId = res.body.id
+
+                done()
+                })
+            })
+        
 
         // GET 1 order
-        responseId = 7
         describe('GET one order', () => {
             it('it should GET previously created order', (done) => {
                 chai.request(server)
@@ -101,10 +100,11 @@ describe('orderRecount', () => {
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a('object')
-                    .that.has.all.keys([ 'id', 'name', 'symbol', 'exchangeRate', 'active', 'createdAt', 'updatedAt' ])
+                    .that.has.all.keys([ 'id', 'name', 'symbol', 'exchangeRate', 'active', 'createdAt', 'updatedAt' ]);
                     currencyResponseId = res.body.id
                     done()
                 })
+                
             })
         })
 
@@ -145,4 +145,5 @@ describe('orderRecount', () => {
                 })
             })})
         });
+    })
 });

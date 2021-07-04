@@ -1,12 +1,12 @@
 process.env.NODE_ENV = 'test';
 
-let mongoose = require("mongoose");
 
 //Require the dev-dependencies
 let chai = require('chai');
 let chaiHttp = require('chai-http');
 let server = "http://127.0.0.1:3005"
 let responseId = 0;
+let should = chai.should();
 chai.use(chaiHttp);
 
 describe('User', () => {
