@@ -20,7 +20,7 @@ describe('Bill', () => {
         describe('GET all bills', () => {
             it('it should GET all bills', (done) => {
                 chai.request(server)
-                    .get('/api/bills')
+                    .get('/api/bill')
                     .end((err, res) => {
                           res.should.have.status(200);
                           res.body.should.be.a('array');
@@ -40,7 +40,14 @@ describe('Bill', () => {
                         expect(res.body)
                             .to.be.an.instanceof(Array)
                             .and.to.have.property(0)
-                            .that.has.all.keys([ 'id'
+                            .that.has.all.keys([ 'id',
+                                        'orderId',
+                                        'clientId',
+                                        'currencyId',
+                                        'price',
+                                        'active',
+                                        'createdAt',
+                                        'updatedAt'
                                             ])
                     done()
                     })
@@ -51,7 +58,7 @@ describe('Bill', () => {
         describe('POST /api/bill create bill', () => {
             it('it should POST new bill', (done) => {
                 let req = {
-                        "name": "bill1"
+                        "orderId": 1
                     
                 }
                 chai.request(server)
@@ -61,7 +68,14 @@ describe('Bill', () => {
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a('object')
-                    .that.has.all.keys([ 'id'
+                    .that.has.all.keys([ 'id',
+                    'orderId',
+                    'clientId',
+                    'currencyId',
+                    'price',
+                    'active',
+                    'createdAt',
+                    'updatedAt'
                 ])
                     responseId = res.body.id
                     //res.body.errors.should.have.property('pages');
@@ -78,11 +92,21 @@ describe('Bill', () => {
                         .get('/api/bill/' + responseId)
                         .end((err, res) => {
                             res.should.have.status(200);
-                            res.body.should.be.a('object')
-                            .that.has.all.keys([ 'id'
+                            res.body.should.be.an('object').and.have.property('bill')
+                            .that.has.all.keys([
+                                        'id',
+                                        'orderId',
+                                        'clientId',
+                                        'currencyId',
+                                        'price',
+                                        'active',
+                                        'createdAt',
+                                        'updatedAt',
+                                        'user',
+                                        'currency',
                                             ])
-                            res.body.should.have.property('id').eql(responseId);
-                            res.body.should.have.property('active').eql(true)
+                            res.body['bill'].should.have.property('id').eql(responseId);
+                            res.body['bill'].should.have.property('active').eql(true)
                           done();
                         });
                     });
@@ -100,9 +124,17 @@ describe('Bill', () => {
                 .send(req)
                 .end((err, res) => {
                     res.should.have.status(200);
-                    res.body.should.be.a('object')
-                    .that.has.all.keys([ 'id'
-                ])
+                    res.body.should.be.an('object')
+                    .that.has.all.keys([
+                        'id',
+                        'orderId',
+                        'clientId',
+                        'currencyId',
+                        'price',
+                        'active',
+                        'createdAt',
+                        'updatedAt'
+                            ])
                     res.body.should.have.property('id').eql(responseId);
                     res.body.should.have.property('active').eql(false)
                     done()
