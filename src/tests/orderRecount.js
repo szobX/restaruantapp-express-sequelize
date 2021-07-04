@@ -24,8 +24,8 @@ describe('orderRecount', () => {
                     "currencyId": 1,
                     "price": "123.00",
                     "CurrencyId": 1,
-                    "active": true
-                    
+                    "active": true,
+                    "menuPositions": [1,2,3]
                 }
                 chai.request(server)
                 .post('/api/order')
@@ -34,18 +34,6 @@ describe('orderRecount', () => {
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a('object')
-                    .that.has.all.keys([ 'id', 
-                    'tableNumber',
-                    'number',
-                    'clientId', 
-                    'currencyId', 
-                    'price', 
-                    'active', 
-                    'status', 
-                    'createdAt', 
-                    'updatedAt',
-                    'CurrencyId'
-                ])
                     responseId = res.body.id
 
                 done()

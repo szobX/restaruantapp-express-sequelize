@@ -66,8 +66,8 @@ describe('Order', () => {
                     "currencyId": 1,
                     "price": "123.00",
                     "CurrencyId": 1,
-                    "active": true
-                    
+                    "active": true,
+                    "menuPositions": [1,2,3]
                 }
                 chai.request(server)
                 .post('/api/order')
@@ -76,21 +76,7 @@ describe('Order', () => {
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a('object')
-                    .that.has.all.keys([ 'id', 
-                    'tableNumber',
-                    'number',
-                    'clientId', 
-                    'currencyId', 
-                    'price', 
-                    'active', 
-                    'status', 
-                    'createdAt', 
-                    'updatedAt',
-                    'CurrencyId'
-                ])
                     responseId = res.body.id
-                    //res.body.errors.should.have.property('pages');
-                    //res.body.errors.pages.should.have.property('kind').eql('required');
                 done()
                 })
             })
@@ -104,20 +90,8 @@ describe('Order', () => {
                         .end((err, res) => {
                             res.should.have.status(200);
                             res.body.should.be.a('object')
-                            .that.has.all.keys([ 'id', 
-                                                'tableNumber',
-                                                'number',
-                                                'clientId', 
-                                                'currencyId', 
-                                                'price', 
-                                                'active', 
-                                                'status', 
-                                                'createdAt', 
-                                                'updatedAt',
-                                                'CurrencyId'
-                                            ])
-                            res.body.should.have.property('id').eql(responseId);
-                            res.body.should.have.property('active').eql(true)
+                            res.body['order'].should.have.property('id').eql(responseId);
+                            res.body['order'].should.have.property('active').eql(true)
                           done();
                         });
                     });

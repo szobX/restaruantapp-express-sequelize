@@ -26,8 +26,8 @@ describe('OrderCategories', () => {
                     "currencyId": 1,
                     "price": "123.00",
                     "CurrencyId": 1,
-                    "active": true
-                    
+                    "active": true,
+                    "menuPositions": [1,2,3]
                 }
                 chai.request(server)
                 .post('/api/order')
