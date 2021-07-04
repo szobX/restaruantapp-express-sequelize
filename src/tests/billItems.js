@@ -53,7 +53,7 @@ describe('Billitems', () => {
                 .get('/api/bill/' + responseId + '/billitems/' )
                 .end((err, res) => {
                     res.should.have.status(200);
-                    res.body.should.be.an('array').that.is.not.empty
+                   res.body.should.be.an('array').that.is.not.empty 
                     res.body.should.have.length.of.at.least(1);
                     res.body[0].should.be.a('object')
                     .that.has.all.keys([ 'id',

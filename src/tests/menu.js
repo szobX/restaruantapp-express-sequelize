@@ -5,6 +5,7 @@ let chai = require('chai');
 let chaiHttp = require('chai-http');
 let server = "http://127.0.0.1:3005"
 let expect = chai.expect;
+let should = chai.should();
 let responseId = 0;
 chai.use(chaiHttp);
 
